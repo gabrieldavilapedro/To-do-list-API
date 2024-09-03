@@ -33,8 +33,23 @@ const createTask = async (title, description) => {
   return { message: 201, data: task };
 };
 
+const updateTask = async (id, attributes) => {
+  const task = await Tasks.findByPk(id);
+  const { title, description, check } = attributes;
+  const updateAtributes = {};
+
+  if (!task) return { message: 404, data: { message: "Task not found" } };
+  if (title !== undefined) updateAtributes.title = title;
+  if (description !== undefined) updateAtributes.description = description;
+  if (check !== undefined) updateAtributes.check = check;
+
+  await task.update(updateAtributes);
+  return { message: 200, data: task };
+};
+
 module.exports = {
   getAllTasks,
   getTaskById,
   createTask,
+  updateTask,
 };
