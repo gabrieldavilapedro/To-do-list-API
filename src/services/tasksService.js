@@ -19,6 +19,11 @@ const createTask = async (title, description) => {
       message: 400,
       data: { message: "the title must have more than 5 characters" },
     };
+  if (title.length > 30)
+    return {
+      message: 400,
+      data: { message: "the title must have less than 30 characters" },
+    };
   if (description.length < 5)
     return {
       message: 400,
