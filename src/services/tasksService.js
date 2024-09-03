@@ -8,10 +8,28 @@ const getAllTasks = async () => {
 const getTaskById = async (id) => {
   const task = await Tasks.findByPk(id);
   if (!task) return { message: 404, data: { message: "Task not found" } };
+
   return { message: 200, data: task };
-}
+};
+
+const createTask = async (title, description) => {
+  const task = await Tasks.create({ title, description });
+  if (title.length < 5)
+    return {
+      message: 400,
+      data: { message: "the title must have more than 5 characters" },
+    };
+  if (description.length < 5)
+    return {
+      message: 400,
+      data: { message: "the description must be longer than 5 characters" },
+    };
+
+  return { message: 201, data: task };
+};
 
 module.exports = {
   getAllTasks,
   getTaskById,
+  createTask,
 };

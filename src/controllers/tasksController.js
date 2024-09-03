@@ -11,7 +11,14 @@ const getTaskById = async (req, res) => {
   return res.status(message).json(data);
 }
 
+const createTask = async (req, res) => {
+  const { title, description } = req.body;
+  const { message, data } = await tasksService.createTask(title, description);
+  return res.status(message).json(data);
+}
+
 module.exports = {
   getAllTasks,
   getTaskById,
+  createTask,
 };
