@@ -47,9 +47,18 @@ const updateTask = async (id, attributes) => {
   return { message: 200, data: task };
 };
 
+const deleteTask = async (id) => {
+  const task = await Tasks.findByPk(id);
+  if (!task) return { message: 404, data: { message: "Task not found" } };
+
+  await task.destroy();
+  return { message: 200, data: { message: "Task deleted" } };
+};
+
 module.exports = {
   getAllTasks,
   getTaskById,
   createTask,
   updateTask,
+  deleteTask,
 };
