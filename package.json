@@ -1,0 +1,23 @@
+{
+  "name": "to-do-list-api",
+  "version": "1.0.0",
+  "description": "## Descrição Este é um projeto de uma API para gerenciar uma lista de tarefas (to-do list).",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "pg": "^8.12.0",
+    "sequelize": "6.3.4"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5",
+    "nodemon": "^3.1.4",
+    "sequelize-cli": "6.6.1"
+  }
+}
