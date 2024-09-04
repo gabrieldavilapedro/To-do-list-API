@@ -58,6 +58,14 @@ describe('GET /tasks/:id', function () {
     });
 
   });
+
+  it('returns 404 if the task does not exist', async () => {
+    const response = await chai.request(app).get('/tasks/999');
+
+    expect(response).to.have.status(404);
+    expect(response.body).to.be.an('object');
+    expect(response.body).to.have.property('message').that.is.equal('Task not found');
+  });
 });
 
 describe('POST /tasks', function () {
@@ -75,6 +83,42 @@ describe('POST /tasks', function () {
     expect(response.body).to.have.property('createdAt').that.is.not.undefined.and.is.not.null;
     expect(response.body).to.have.property('updatedAt').that.is.not.undefined.and.is.not.null;
     expect(response.body).to.include(newTask);
+  });
+  it('returns 400 if the title is less than 5 characters', async () => {
+    const newTask = {
+      title: 'Node',
+      description: 'Estudar Node.js para desenvolver APIs',
+    };
+
+    const response = await chai.request(app).post('/tasks').send(newTask);
+
+    expect(response).to.have.status(400);
+    expect(response.body).to.be.an('object');
+    expect(response.body).to.have.property('message').that.is.equal('the title must have more than 5 characters');
+  });
+  it('returns 400 if the title is more than 30 characters', async () => {
+    const newTask = {
+      title: 'Estudar Node.js para desenvolver APIs',
+      description: 'Estudar Node.js para desenvolver APIs',
+    };
+
+    const response = await chai.request(app).post('/tasks').send(newTask);
+
+    expect(response).to.have.status(400);
+    expect(response.body).to.be.an('object');
+    expect(response.body).to.have.property('message').that.is.equal('the title must have less than 30 characters');
+  });
+  it('returns 400 if the description is less than 5 characters', async () => {
+    const newTask = {
+      title: 'Estudar Node.js',
+      description: 'Node',
+    };
+
+    const response = await chai.request(app).post('/tasks').send(newTask);
+
+    expect(response).to.have.status(400);
+    expect(response.body).to.be.an('object');
+    expect(response.body).to.have.property('message').that.is.equal('the description must be longer than 5 characters');
   });
 });
 
@@ -140,6 +184,13 @@ describe('DELETE /tasks/:id', function () {
     
     const taskDeleted = await Tasks.findByPk(task.id);
     expect(taskDeleted).to.be.null;
+  });
+  it ('returns 404 if the task does not exist', async () => {
+    const response = await chai.request(app).delete('/tasks/999');
+
+    expect(response).to.have.status(404);
+    expect(response.body).to.be.an('object');
+    expect(response.body).to.have.property('message').that.is.equal('Task not found');
   });
 });
 
