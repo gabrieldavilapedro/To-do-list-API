@@ -6,14 +6,14 @@ const { Tasks } = require('../../src/models');
 chai.use(chaiHttp);
 const { expect } = chai;
 
-before(async () => {
+beforeEach(async () => {
   await Tasks.create({
     title: 'Estudar Node.js',
     description: 'Estudar Node.js para desenvolver APIs',
   });
 });
 
-after(async () => {
+afterEach(async () => {
   await Tasks.destroy({ where: {} });
 });
 
@@ -79,12 +79,10 @@ describe('POST /tasks', function () {
 });
 
 describe('PUT /tasks/:id', function () {
-  it('updates a task', async () => {
-    const task = await Tasks.findOne({ where: { title: 'Estudar React' } });
+  it('updates a task check', async () => {
+    const task = await Tasks.findOne({ where: { title: 'Estudar Node.js' } });
 
     const updatedTask = {
-      title: 'Estudar React',
-      description: 'Estudar React para desenvolver páginas web',
       check: true,
     };
 
@@ -96,6 +94,52 @@ describe('PUT /tasks/:id', function () {
     expect(response.body).to.have.property('createdAt').that.is.not.undefined.and.is.not.null;
     expect(response.body).to.have.property('updatedAt').that.is.not.undefined.and.is.not.null;
     expect(response.body).to.include(updatedTask);
+  });
+
+  it('updates a title and description', async () => {
+    const task = await Tasks.findOne({ where: { title: 'Estudar Node.js' } });
+
+    const updatedTask = {
+      title: 'Estudar Vue.js',
+      description: 'Estudar Vue.js para desenvolver páginas web',
+    };
+
+    const response = await chai.request(app).put(`/tasks/${task.id}`).send(updatedTask);
+
+    expect(response).to.have.status(200);
+    expect(response.body).to.be.an('object');
+    expect(response.body).to.have.property('id').that.is.not.undefined.and.is.not.null;
+    expect(response.body).to.have.property('createdAt').that.is.not.undefined.and.is.not.null;
+    expect(response.body).to.have.property('updatedAt').that.is.not.undefined.and.is.not.null;
+    expect(response.body).to.include(updatedTask);
+  });
+
+
+  it('returns 404 if the task does not exist', async () => {
+    const updatedTask = {
+      check: true,
+    };
+
+    const response = await chai.request(app).put('/tasks/999').send(updatedTask);
+
+    expect(response).to.have.status(404);
+    expect(response.body).to.be.an('object');
+    expect(response.body).to.have.property('message').that.is.equal('Task not found');
+  });
+});
+
+describe('DELETE /tasks/:id', function () {
+  it('deletes a task', async () => {
+    const task = await Tasks.findOne({ where: { title: 'Estudar Node.js' } });
+
+    const response = await chai.request(app).delete(`/tasks/${task.id}`);
+
+    expect(response).to.have.status(200);
+    expect(response.body).to.be.an('object');
+    expect(response.body).to.have.property('message').that.is.equal('Task deleted');
+    
+    const taskDeleted = await Tasks.findByPk(task.id);
+    expect(taskDeleted).to.be.null;
   });
 });
 
