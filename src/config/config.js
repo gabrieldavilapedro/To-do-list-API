@@ -9,6 +9,7 @@ const config = {
 const configTest = {
   ...config,
   database: process.env.DB_DATABASE_TEST,
+  logging: false,
 };
 
 module.exports = {

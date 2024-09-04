@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       tableName: 'tasks',
+      timestamps: true,
     },
   );
 
