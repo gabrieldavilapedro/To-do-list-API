@@ -61,3 +61,21 @@ describe('GET /tasks/:id', function () {
   });
 });
 
+describe('POST /tasks', function () {
+  it('creates a new task', async () => {
+    const newTask = {
+      title: 'Estudar React',
+      description: 'Estudar React para desenvolver páginas web',
+    };
+
+    const response = await chai.request(app).post('/tasks').send(newTask);
+
+    expect(response).to.have.status(201);
+    expect(response.body).to.be.an('object');
+    expect(response.body).to.have.property('id').that.is.not.undefined.and.is.not.null;
+    expect(response.body).to.have.property('createdAt').that.is.not.undefined.and.is.not.null;
+    expect(response.body).to.have.property('updatedAt').that.is.not.undefined.and.is.not.null;
+    expect(response.body).to.include(newTask);
+  });
+});
+
