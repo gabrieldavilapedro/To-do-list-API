@@ -41,7 +41,6 @@ describe('GET /tasks', function () {
 });
 
 describe('GET /tasks/:id', function () {
-
   it('returns the data for the given id', async () => {
     const task = await Tasks.findOne({ where: { title: 'Estudar Node.js' } });
 
@@ -76,6 +75,27 @@ describe('POST /tasks', function () {
     expect(response.body).to.have.property('createdAt').that.is.not.undefined.and.is.not.null;
     expect(response.body).to.have.property('updatedAt').that.is.not.undefined.and.is.not.null;
     expect(response.body).to.include(newTask);
+  });
+});
+
+describe('PUT /tasks/:id', function () {
+  it('updates a task', async () => {
+    const task = await Tasks.findOne({ where: { title: 'Estudar React' } });
+
+    const updatedTask = {
+      title: 'Estudar React',
+      description: 'Estudar React para desenvolver páginas web',
+      check: true,
+    };
+
+    const response = await chai.request(app).put(`/tasks/${task.id}`).send(updatedTask);
+
+    expect(response).to.have.status(200);
+    expect(response.body).to.be.an('object');
+    expect(response.body).to.have.property('id').that.is.not.undefined.and.is.not.null;
+    expect(response.body).to.have.property('createdAt').that.is.not.undefined.and.is.not.null;
+    expect(response.body).to.have.property('updatedAt').that.is.not.undefined.and.is.not.null;
+    expect(response.body).to.include(updatedTask);
   });
 });
 
