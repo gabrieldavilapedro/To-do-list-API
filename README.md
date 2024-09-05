@@ -61,6 +61,13 @@ Execute as seeds:
 env $(cat .env) npx sequelize db:seed:all
 ```
 
+### Rodando testes
+
+```
+env $(cat .env) NODE_ENV=test npx sequelize db:create
+env $(cat .env) NODE_ENV=test npx sequelize db:migrate
+```
+
 ## Documentação das Rotas
 
 Agora faça o download deste arquivo, onde estão documentadas as rotas:

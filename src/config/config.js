@@ -3,11 +3,17 @@ const config = {
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   host: process.env.DB_HOST,
-  dialect: "postgres",
+  dialect: 'postgres',
+};
+
+const configTest = {
+  ...config,
+  database: process.env.DB_DATABASE_TEST,
+  logging: false,
 };
 
 module.exports = {
   development: config,
-  test: config,
+  test: configTest,
   production: config,
 };
