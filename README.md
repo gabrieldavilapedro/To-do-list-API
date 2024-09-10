@@ -37,11 +37,11 @@ cd To-do-list-web-server/
 3. **Apos clonar o repositorio, crie as variáveis de ambiente:**
 
 ```bash
-$ cp postgres.env.example postgres.env
+cp postgres.env.example postgres.env
 ```
 
 ```bash
-$ cp .env.example .env
+cp .env.example .env
 ```
 
 Esses comandos criam dois arquivos ignorados pelo git, neles você pode alterar as variáveis de ambiente para o desenvolvimento local.
