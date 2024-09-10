@@ -76,6 +76,12 @@ env $(cat .env) npx sequelize db:migrate
 env $(cat .env) npx sequelize db:seed:all
 ```
 
+9. **Para rodar o servidor em ambiente de desenvolvimento rode:**
+
+```bash
+npm run dev
+```
+
 ### Rodando testes
 
 1. **Crie o banco de dados de teste:**
