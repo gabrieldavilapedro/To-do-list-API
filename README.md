@@ -22,50 +22,78 @@ Este é um projeto de uma API para gerenciar uma lista de tarefas (to-do list).
 
 ## Rodando localmente
 
-Primeiro crie as variáveis de ambiente:
+1. **Clone o repositório, execute o seguinte comando no terminal:**
 
+```bash
+git git@github.com:gabrieldavilapedro/To-do-list-API.git
 ```
+
+2. **Entre na pasta do projeto:**
+
+```bash
+cd To-do-list-web-server/
+```
+
+3. **Apos clonar o repositorio, crie as variáveis de ambiente:**
+
+```bash
 $ cp postgres.env.example postgres.env
+```
+
+```bash
 $ cp .env.example .env
 ```
 
 Esses comandos criam dois arquivos ignorados pelo git, neles você pode alterar as variáveis de ambiente para o desenvolvimento local.
 
-Agora instale as dependências:
+4. **Agora instale as dependências:**
 
-```
+```bash
 npm install
 ```
 
-Execute o Docker Compose:
+5. **Execute o Docker Compose:**
 
-```
+```bash
 docker-compose up
 ```
 
-Crie o banco de dados:
+6. **Crie o banco de dados:**
 
-```
+```bash
 env $(cat .env) npx sequelize db:create
 ```
 
-Execute as migrações:
+7. **Execute as migrações:**
 
-```
+```bash
 env $(cat .env) npx sequelize db:migrate
 ```
 
-Execute as seeds:
+8. _Execute as seeds se quiser popular o banco com alguns dados:_
 
-```
+```bash
 env $(cat .env) npx sequelize db:seed:all
 ```
 
 ### Rodando testes
 
-```
+1. **Crie o banco de dados de teste:**
+
+```bash
 env $(cat .env) NODE_ENV=test npx sequelize db:create
+```
+
+2. **Execute as migrações:**
+
+```bash
 env $(cat .env) NODE_ENV=test npx sequelize db:migrate
+```
+
+3. **Execute os testes:**
+
+```bash
+npm run test
 ```
 
 ## Documentação das Rotas
