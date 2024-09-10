@@ -14,35 +14,52 @@ const getTaskById = async (id) => {
 
 const createTask = async (title, description) => {
   const task = await Tasks.create({ title, description });
-  if (title.length < 5)
+  if (title.length <= 1)
     return {
       message: 400,
-      data: { message: 'the title must have more than 5 characters' },
+      data: { message: 'the title must have more than 1 characters' },
     };
   if (title.length > 30)
     return {
       message: 400,
       data: { message: 'the title must have less than 30 characters' },
     };
-  if (description.length < 5)
+  if (description.length <= 1)
     return {
       message: 400,
-      data: { message: 'the description must be longer than 5 characters' },
+      data: { message: 'the description must have more than 1 characters' },
     };
 
   return { message: 201, data: task };
 };
 
 const updateTask = async (id, attributes) => {
-  const task = await Tasks.findByPk(id);
   const { title, description, check } = attributes;
+
+  const task = await Tasks.findByPk(id);
   const updateAtributes = {};
 
+  if (title && title.length <= 1)
+    return {
+      message: 400,
+      data: { message: 'the title must have more than 1 characters' },
+    };
+  if (title && title.length > 30)
+    return {
+      message: 400,
+      data: { message: 'the title must have less than 30 characters' },
+    };
+  if (description && description.length <= 1)
+    return {
+      message: 400,
+      data: { message: 'the description must have more than 1 characters' },
+    };
+
   if (!task) return { message: 404, data: { message: 'Task not found' } };
+
   if (title !== undefined) updateAtributes.title = title;
   if (description !== undefined) updateAtributes.description = description;
   if (check !== undefined) updateAtributes.check = check;
-
   await task.update(updateAtributes);
   return { message: 200, data: task };
 };
